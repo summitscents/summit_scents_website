@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Summit Scents</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --black: #000000; --gold: #e9c381; --gold-light: #f2d9a8; --gold-dim: #a07840; --cream: #f5f0e8; --muted: #9a8b78; --white: #ffffff; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--cream); font-family: 'Cormorant Garamond', Georgia, serif; overflow-x: hidden; cursor: none; }
+  .cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; }
+  .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transition: all 0.25s ease; opacity: 0.6; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; z-index: 9000; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 14px 56px; background: rgba(0,0,0,0.97); border-bottom: 1px solid rgba(233,195,129,0.08); backdrop-filter: blur(10px); }
+  .nav-logo { display: flex; flex-direction: column; align-items: center; gap: 1px; text-decoration: none; width: fit-content; }
+  .nav-logo-word { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.55em; color: var(--gold); text-transform: uppercase; line-height: 1; }
+  .nav-logo-icon { width: 38px; height: 22px; margin: 3px 0; }
+  .nav-logo-est { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.28em; color: var(--gold-dim); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-family: 'Cinzel', serif; font-size: 9.5px; letter-spacing: 0.22em; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; position: relative; padding-bottom: 2px; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a.active { color: var(--gold); }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 1px; background: var(--gold); }
+  .nav-actions { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
+  .nav-actions svg { width: 18px; height: 18px; stroke: var(--muted); fill: none; stroke-width: 1.5; cursor: pointer; transition: stroke 0.3s; }
+  .nav-actions svg:hover { stroke: var(--gold); }
+
+  /* PAGE HERO */
+  .page-hero {
+    min-height: 55vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 140px 56px 80px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(233,195,129,0.08);
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(233,195,129,0.05) 0%, transparent 70%);
+  }
+  .mountain-bg { position: absolute; bottom: 0; left: 0; right: 0; opacity: 0.04; pointer-events: none; }
+  .page-hero-content { position: relative; z-index: 2; max-width: 700px; }
+  .page-eyebrow { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.52em; color: var(--gold); text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+  .page-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(52px, 7vw, 90px); font-weight: 300; color: var(--gold); line-height: 0.95; margin-bottom: 28px; }
+  .page-lead { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(20px, 2.2vw, 26px); color: var(--cream); line-height: 1.65; }
+
+  /* STORY CONTENT */
+  .story-section { padding: 100px 56px; max-width: 1200px; margin: 0 auto; }
+
+  .story-block { display: grid; grid-template-columns: 1fr 1.4fr; gap: 100px; align-items: center; margin-bottom: 120px; }
+  .story-block.reverse { grid-template-columns: 1.4fr 1fr; }
+  .story-block.reverse .story-visual { order: 2; }
+  .story-block.reverse .story-text { order: 1; }
+
+  .story-visual { position: relative; }
+  .story-accent-box { width: 100%; aspect-ratio: 3/4; background: #080808; border: 1px solid rgba(233,195,129,0.1); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .story-accent-box::before { content: ''; position: absolute; inset: 20px; border: 1px solid rgba(233,195,129,0.05); }
+  .story-accent-num { font-family: 'Cinzel', serif; font-size: 120px; color: rgba(233,195,129,0.04); line-height: 1; user-select: none; }
+  .story-accent-corner { position: absolute; bottom: -20px; right: -20px; width: 80px; height: 80px; border: 1px solid rgba(233,195,129,0.12); }
+
+  /* FOUNDER PHOTO */
+  .founder-photo-wrap { width: 100%; aspect-ratio: 3/4; position: relative; overflow: hidden; border: 1px solid rgba(233,195,129,0.12); }
+  .founder-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: grayscale(20%) contrast(1.05); transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+  .founder-photo-wrap:hover img { transform: scale(1.03); }
+  .founder-photo-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%); pointer-events: none; }
+  .founder-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 24px; z-index: 2; }
+  .founder-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; color: var(--cream); margin-bottom: 4px; }
+  .founder-title { font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+
+  .story-tag { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.5em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .story-tag::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+  .story-heading { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(34px, 4vw, 52px); font-weight: 300; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
+  .story-body { font-size: 17px; line-height: 2; color: var(--muted); margin-bottom: 24px; }
+
+  .gold-line { width: 48px; height: 1px; background: linear-gradient(to right, var(--gold), transparent); margin: 32px 0; }
+
+  /* STATS */
+  .stats-row { padding: 80px 56px; background: #050505; border-top: 1px solid rgba(233,195,129,0.08); border-bottom: 1px solid rgba(233,195,129,0.08); }
+  .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(233,195,129,0.08); }
+  .stat { background: #050505; padding: 48px 32px; text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 56px; font-weight: 300; color: var(--gold); display: block; line-height: 1; margin-bottom: 12px; }
+  .stat-label { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.35em; color: var(--muted); text-transform: uppercase; }
+
+  /* QUOTE */
+  .quote-section { padding: 120px 56px; text-align: center; }
+  .quote-inner { max-width: 760px; margin: 0 auto; }
+  .quote-mark { font-family: 'Cormorant Garamond', serif; font-size: 100px; color: var(--gold); line-height: 0.6; opacity: 0.4; margin-bottom: 8px; }
+  .quote-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(24px, 3vw, 38px); color: var(--cream); line-height: 1.55; margin-bottom: 40px; }
+  .quote-attr { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.4em; color: var(--gold-dim); text-transform: uppercase; }
+
+  /* FOOTER */
+  footer { padding: 76px 56px 36px; background: var(--black); border-top: 1px solid rgba(233,195,129,0.07); }
+  .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1.6fr; gap: 44px; margin-bottom: 68px; }
+  .footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
+  .footer-logo { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
+  .footer-logo-word { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.55em; color: var(--gold); text-transform: uppercase; line-height: 1; }
+  .footer-logo-icon { width: 40px; height: 24px; margin: 4px 0; }
+  .footer-logo-est { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.28em; color: var(--gold-dim); text-transform: uppercase; }
+  .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 210px; }
+  .footer-col h4 { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.38em; color: var(--gold); text-transform: uppercase; margin-bottom: 22px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 13px; font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--muted); cursor: pointer; transition: color 0.3s; }
+  .footer-col li:hover { color: var(--cream); }
+  .footer-connect h4 { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.38em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .footer-connect p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+  .footer-email-form { display: flex; border: 1px solid rgba(233,195,129,0.22); margin-bottom: 26px; }
+  .footer-email-input { flex: 1; background: transparent; border: none; padding: 12px 14px; font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--cream); outline: none; }
+  .footer-email-input::placeholder { color: var(--muted); font-style: italic; }
+  .footer-email-btn { background: transparent; border: none; border-left: 1px solid rgba(233,195,129,0.22); padding: 12px 14px; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; }
+  .footer-email-btn:hover { background: rgba(233,195,129,0.1); }
+  .footer-email-btn svg { width: 15px; height: 15px; stroke: var(--gold); fill: none; stroke-width: 2; }
+  .footer-socials { display: flex; gap: 12px; }
+  .footer-social-icon { width: 34px; height: 34px; border: 1px solid rgba(233,195,129,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; text-decoration: none; }
+  .footer-social-icon:hover { border-color: var(--gold); background: rgba(233,195,129,0.08); }
+  .footer-social-icon svg { width: 13px; height: 13px; stroke: var(--muted); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+  .footer-social-icon:hover svg { stroke: var(--gold); }
+  .footer-bottom { display: flex; justify-content: center; padding-top: 28px; border-top: 1px solid rgba(233,195,129,0.06); }
+  .footer-copy { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.24em; color: var(--gold-dim); text-transform: uppercase; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.12s; }
+  .reveal-delay-2 { transition-delay: 0.24s; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="summit-scents.html" class="nav-logo">
+    <span class="nav-logo-word">Summit</span>
+    <svg class="nav-logo-icon" viewBox="0 0 60 34" fill="none">
+      <polyline points="2,32 14,9 24,21 32,10 42,22 58,32" stroke="#e9c381" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-logo-word">Scents</span>
+    <span class="nav-logo-est">— Est. 2026 —</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="summit-scents.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="story.html" class="active">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <svg class="mountain-bg" viewBox="0 0 1440 300" preserveAspectRatio="none">
+    <polygon points="0,300 200,300 480,80 720,220 960,40 1240,200 1440,100 1440,300" fill="#e9c381"/>
+  </svg>
+  <div class="page-hero-content">
+    <p class="page-eyebrow reveal">Our Philosophy</p>
+    <h1 class="page-title reveal reveal-delay-1">Born from the Mountain</h1>
+    <p class="page-lead reveal reveal-delay-2">Scent is memory given form. We bottle the mountain.</p>
+  </div>
+</div>
+
+<!-- STORY CONTENT -->
+<div class="story-section">
+
+  <div class="story-block reveal">
+    <div class="story-visual">
+      <div class="founder-photo-wrap">
+        <img src="Cohen_Headshot.JPEG" alt="Founder — Summit Scents">
+        <div class="founder-caption">
+          <div class="founder-name">Cohen Stull</div>
+          <div class="founder-title">Founder, Summit Scents</div>
+        </div>
+      </div>
+      <div class="story-accent-corner"></div>
+    </div>
+    <div class="story-text">
+      <p class="story-tag">The Origin</p>
+      <h2 class="story-heading">A singular obsession with mountain air</h2>
+      <p class="story-body">Summit Scents was born from a singular obsession: the way mountain air changes everything — how it sharpens the mind, settles the spirit, and makes the world feel vast and possible again.</p>
+      <p class="story-body">We craft each fragrance to carry that feeling wherever you go. Not just a scent, but a state of mind.</p>
+      <div class="gold-line"></div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <span class="footer-logo-word">Summit</span>
+        <svg class="footer-logo-icon" viewBox="0 0 60 34" fill="none">
+          <polyline points="2,32 14,9 24,21 32,10 42,22 58,32" stroke="#e9c381" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="footer-logo-word">Scents</span>
+        <span class="footer-logo-est">— Est. 2026 —</span>
+      </div>
+      <p class="footer-tagline">Premium fragrances inspired by nature. Crafted for the modern gentleman.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+    </div>
+    <div class="footer-connect">
+      <h4>Stay Connected</h4>
+      <p>Join our community for exclusive offers and new releases.</p>
+      <div class="footer-email-form">
+        <input type="email" class="footer-email-input" placeholder="Enter your email">
+        <button class="footer-email-btn"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+      <div class="footer-socials">
+        <a href="#" class="footer-social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="#9a8b78" stroke="none"/></svg></a>
+        <a href="#" class="footer-social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" class="footer-social-icon" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Summit Scents. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left=(mx-4)+'px'; cursor.style.top=(my-4)+'px'; });
+  (function animateRing(){ rx+=(mx-rx-16)*0.12; ry+=(my-ry-16)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animateRing); })();
+  document.querySelectorAll('a,button').forEach(el=>{ el.addEventListener('mouseenter',()=>{ cursor.style.transform='scale(2)'; ring.style.transform='scale(1.5)'; ring.style.opacity='0.3'; }); el.addEventListener('mouseleave',()=>{ cursor.style.transform='scale(1)'; ring.style.transform='scale(1)'; ring.style.opacity='0.6'; }); });
+  const obs = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
