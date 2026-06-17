@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summit Scents</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f8f6f0;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dark: #9a7a2e;
+      --gray: #1a1a1a;
+      --gray-mid: #2e2e2e;
+      --text-muted: #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background-color: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      text-transform: uppercase;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='5' fill='%23c9a84c'/%3E%3C/svg%3E") 6 6, auto;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 22px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #000000;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+      transition: background 0.3s ease;
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 26px;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      text-decoration: none;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 78vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+                  linear-gradient(160deg, #0a0a0a 0%, #141414 50%, #0a0a0a 100%);
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 168, 76, 0.12);
+      pointer-events: none;
+    }
+
+    .hero-bg-circle:nth-child(1) { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .hero-bg-circle:nth-child(2) { width: 850px; height: 850px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .hero-bg-circle:nth-child(3) { width: 1100px; height: 1100px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-color: rgba(201, 168, 76, 0.05); }
+
+    .hero-content { position: relative; z-index: 2; max-width: 750px; padding: 0 30px; }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: normal;
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      margin-bottom: 28px;
+      color: var(--white);
+    }
+
+    .hero-title .gold { color: var(--gold); }
+
+    .tw-cursor {
+      display: inline-block;
+      width: 4px;
+      height: 0.9em;
+      background: var(--gold);
+      margin-left: 8px;
+      vertical-align: baseline;
+      animation: blink 0.75s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+      margin-bottom: 50px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: #7b4f2e;
+      color: #ffffff;
+      padding: 10px 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.92rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-hero {
+      background: #ffffff;
+      color: #7b4f2e;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-hero:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 8px 44px;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.3);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 120px 60px; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 50px;
+    }
+
+    /* ── SCENT PROFILE ── */
+    #scent {
+      background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%);
+      text-align: center;
+    }
+
+    #scent .section-label,
+    #scent .gold-divider { margin-left: auto; margin-right: auto; }
+
+    #scent .section-title { max-width: 600px; margin-left: auto; margin-right: auto; margin-bottom: 20px; }
+
+    .scent-intro {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.9;
+      max-width: 580px;
+      margin: 0 auto 70px;
+    }
+
+    .scent-notes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .note-card {
+      background: var(--gray);
+      padding: 50px 30px;
+      border: none;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .note-tier {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .note-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 16px;
+      display: block;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 168, 76, 0.4);
+      background: rgba(201, 168, 76, 0.05);
+    }
+
+    .note-name {
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .note-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      white-space: nowrap;
+    }
+
+    /* ── PRODUCT ── */
+    #product {
+      background: var(--gray);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      border: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    #product-section {
+      padding: 120px 60px;
+      background: #ffffff;
+    }
+
+    .product-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .product-visual {
+      aspect-ratio: 3/4;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: visible;
+    }
+
+    .bottle-svg {
+      width: 45%;
+      opacity: 0.9;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      line-height: 1.4;
+    }
+
+    .product-info { padding: 20px 0; }
+
+    .product-name {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: normal;
+      letter-spacing: 0.1em;
+      color: #7b4f2e;
+      margin-bottom: 6px;
+    }
+
+    .product-tagline {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .product-desc {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      line-height: 1.9;
+      margin-bottom: 36px;
+    }
+
+    .product-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .spec {
+      border-top: 1px solid rgba(201, 168, 76, 0.2);
+      padding-top: 14px;
+    }
+
+    .spec-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .spec-value {
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      color: #7b4f2e;
+    }
+
+    .product-price {
+      font-size: 2.2rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+    }
+
+    .stripe-badge {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .product-price span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      vertical-align: super;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: #0a0a0a;
+      padding-bottom: 60px;
+    }
+
+    #reviews {
+      padding-top: 60px;
+    }
+
+    .about-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .about-portrait {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      display: block;
+      border: 1px dashed rgba(201, 168, 76, 0.4);
+      background: rgba(201, 168, 76, 0.05);
+    }
+
+    .about-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      margin-bottom: 22px;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .stat-num {
+      font-size: 2.2rem;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── REVIEWS ── */
+    #reviews {
+      background: #3d2817;
+      text-align: center;
+    }
+
+    #reviews .section-label,
+    #reviews .gold-divider { margin-left: auto; margin-right: auto; }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: #ffffff;
+      border: none;
+      padding: 26px 24px;
+      text-align: left;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+      transition: transform 0.3s;
+    }
+
+    .review-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .review-text {
+      font-style: italic;
+      color: #7b4f2e;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--black);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: #7b4f2e;
+      margin-bottom: 3px;
+    }
+
+    .author-meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #000000;
+      padding: 36px 60px 28px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 60px;
+      margin-bottom: 28px;
+    }
+
+    .footer-brand .nav-logo { display: block; margin-bottom: 12px; font-size: 1.4rem; }
+
+    .footer-tagline {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 320px;
+      margin-bottom: 0;
+    }
+
+    .footer-social { display: flex; gap: 14px; }
+
+    .social-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .social-icon:hover { border-color: var(--gold); color: var(--gold); }
+
+    .footer-col-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-copy span { color: var(--gold); }
+
+    .footer-legal {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-legal a {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      #product-section { padding: 80px 24px; }
+      .product-wrapper { grid-template-columns: 1fr; gap: 40px; }
+      .about-wrapper { grid-template-columns: 1fr; gap: 50px; }
+      .about-visual { height: 260px; }
+      .scent-notes { grid-template-columns: 1fr; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav>
+    <a href="#hero" class="nav-logo">Summit Scents</a>
+    <ul class="nav-links">
+      <li><a href="#product-section">Shop</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a href="#product-section" class="nav-cta">Shop Now</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Luxury Men's Fragrance</p>
+      <h1 class="hero-title" id="heroTitle"><span class="tw-content"></span><span class="tw-cursor"></span></h1>
+      <p class="hero-subtitle">Bold. Adventurous. Crafted for those who command attention without demanding it. Summit Scents redefines masculine elegance.</p>
+      <div class="hero-buttons">
+        <a href="#product-section" class="btn-primary btn-hero">Shop Now</a>
+        <a href="#scent" class="btn-outline">Discover the Scent</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCENT PROFILE ── -->
+  <section id="scent">
+    <span class="section-label">Fragrance Composition</span>
+    <h2 class="section-title">Our Signature Scent</h2>
+    <div class="gold-divider"></div>
+    <p class="scent-intro">Ivory is a meticulously composed fragrance journey from the first breath to the final whisper — each layer chosen to evoke confidence, clarity, and elevated presence.</p>
+    <div class="scent-notes">
+      <div class="note-card">
+        <img class="note-icon" src="" alt="Cedarwood" />
+        <h3 class="note-name">Cedarwood</h3>
+        <p class="note-desc">Earthy, smooth, and grounding.</p>
+      </div>
+      <div class="note-card">
+        <img class="note-icon" src="" alt="Vanilla" />
+        <h3 class="note-name">Vanilla</h3>
+        <p class="note-desc">Warm, sweet, and comforting.</p>
+      </div>
+      <div class="note-card">
+        <img class="note-icon" src="" alt="Sandalwood" />
+        <h3 class="note-name">Sandalwood</h3>
+        <p class="note-desc">Rich, deep, and long lasting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCT ── -->
+  <section id="product-section">
+    <div class="product-wrapper">
+      <div class="product-visual">
+        <img src="Downloads/bottl-ivory.jpg" alt="Ivory Cologne Bottle" style="width:100%;height:100%;object-fit:contain;display:block;transform:scale(1.3);transform-origin:center;filter:drop-shadow(0 30px 28px rgba(0,0,0,0.55));" />
+        <div class="product-badge">New<br>Arrival<br>2025</div>
+      </div>
+
+      <div class="product-info">
+        <span class="section-label">Signature Collection</span>
+        <h2 class="product-name">Ivory</h2>
+        <p class="product-tagline">Eau de Parfum · 100ml</p>
+        <p class="product-desc">Ivory is a study in restrained luxury. Inspired by the quiet confidence of alpine summits and the warmth of aged wood, it speaks without shouting — a fragrance for those who have already arrived.</p>
+
+        <div class="product-specs">
+          <div class="spec">
+            <p class="spec-label">Volume</p>
+            <p class="spec-value">100 ml / 3.4 fl oz</p>
+          </div>
+          <div class="spec">
+            <p class="spec-label">Concentration</p>
+            <p class="spec-value">Eau de Parfum</p>
+          </div>
+          <div class="spec">
+            <p class="spec-label">Longevity</p>
+            <p class="spec-value">10–14 Hours</p>
+          </div>
+          <div class="spec">
+            <p class="spec-label">Sillage</p>
+            <p class="spec-value">Moderate–Strong</p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px;">
+          <p class="product-price" style="margin-bottom: 0;">$59.99<span>USD</span></p>
+          <span class="stripe-badge">Powered by Stripe</span>
+        </div>
+
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="#" class="btn-primary">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="about-wrapper">
+      <div class="about-visual">
+        <img class="about-portrait" src="" alt="Portrait photo" />
+      </div>
+      <div class="about-content">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">Born at the Summit</h2>
+        <div class="gold-divider"></div>
+        <p>Summit Scents was founded on a single belief: that fragrance is the most intimate expression of identity. We set out to create something that felt as elevated as the mountains that inspired us — clean, powerful, and enduring.</p>
+        <p>Every bottle of Ivory is crafted in small batches using ethically sourced ingredients. We work directly with perfumers in Grasse, France to ensure every drop meets our obsessive standard for quality.</p>
+        <p>We don't make fragrances for trends. We make them for legacies.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REVIEWS ── -->
+  <section id="reviews">
+    <span class="section-label">Customer Reviews</span>
+    <h2 class="section-title">What People Are Saying</h2>
+    <div class="gold-divider"></div>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Ivory is unlike anything I've worn before. It opens with this incredible freshness and then settles into something incredibly warm and masculine. I get compliments every single time."</p>
+        <div class="review-author">
+          <div class="author-avatar">JM</div>
+          <div>
+            <p class="author-name">James M.</p>
+            <p class="author-meta">Verified Purchase</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The longevity on this is insane — I put it on in the morning and my wife could still smell it at dinner. This is now my signature scent. Worth every penny at $148."</p>
+        <div class="review-author">
+          <div class="author-avatar">DK</div>
+          <div>
+            <p class="author-name">Daniel K.</p>
+            <p class="author-meta">Verified Purchase</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I've been collecting fragrances for 12 years. Ivory is genuinely one of the most elegant scents I've encountered at this price point. The cashmere wood in the heart is stunning."</p>
+        <div class="review-author">
+          <div class="author-avatar">RB</div>
+          <div>
+            <p class="author-name">Ryan B.</p>
+            <p class="author-meta">Verified Purchase</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo">Summit Scents</a>
+        <p class="footer-tagline">Luxury fragrance for those who live with intentionality and sophistication.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Support</p>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 <span>Summit Scents</span>. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var target = document.getElementById('heroTitle');
+      if (!target) return;
+      var content = target.querySelector('.tw-content');
+      var segments = [
+        { text: 'For those who ', gold: false },
+        { text: 'lead the climb', gold: true }
+      ];
+      var chars = [];
+      segments.forEach(function (s) {
+        for (var i = 0; i < s.text.length; i++) {
+          chars.push({ c: s.text[i], gold: s.gold });
+        }
+      });
+      var idx = 0;
+      var cursor = target.querySelector('.tw-cursor');
+      var goldWrap = null;
+      function type() {
+        if (idx >= chars.length) {
+          if (cursor) cursor.style.display = 'none';
+          return;
+        }
+        var ch = chars[idx];
+        if (ch.gold) {
+          if (!goldWrap) {
+            goldWrap = document.createElement('span');
+            goldWrap.className = 'gold';
+            goldWrap.style.whiteSpace = 'nowrap';
+            content.appendChild(goldWrap);
+          }
+          goldWrap.appendChild(document.createTextNode(ch.c));
+        } else {
+          content.appendChild(document.createTextNode(ch.c));
+        }
+        idx++;
+        setTimeout(type, 85);
+      }
+      setTimeout(type, 400);
+    })();
+  </script>
+
+</body>
+</html>
